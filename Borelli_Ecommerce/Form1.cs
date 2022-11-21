@@ -12,9 +12,70 @@ namespace Borelli_Ecommerce
 {
     public partial class Form1 : Form
     {
+        int contRapid = 0;
+        bool firsTime = true;
+        Prodotto[] prod = new Prodotto[999];
+        Carrello carrello = new Carrello("CARRELLO1");
+        Random rand = new Random();
+
         public Form1()
         {
             InitializeComponent();
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            if (firsTime)//solo la prima volta che apro il programma
+            {
+                listView1.View = View.Details;
+                listView1.FullRowSelect = true;
+                firsTime = false;
+
+                listView1.Columns.Add("ID", 60);
+                listView1.Columns.Add("NOME", 80);
+                listView1.Columns.Add("PRODUTTORE", 80);
+                listView1.Columns.Add("DESCRIZIONE", 220);
+                listView1.Columns.Add("PREZZO", 50);
+                listView1.Columns.Add("QTA", 40);
+            }
+            StampaElementi(listView1, carrello);
+        }
+        private void button2_Click(object sender, EventArgs e)//inserimento rapido
+        {
+            prod[contRapid] = new Prodotto($"ID{contRapid}", $"NOME{contRapid}", $"PRODUTTORE{contRapid}", $"PRODOTTO MOLTO BELO{contRapid}", rand.Next(0,999));
+            carrello.Aggiungi(prod[contRapid]);
+            contRapid++;
+            Form1_Load(sender, e);
+        }
+        private void button1_Click(object sender, EventArgs e)//inserisci normale
+        {
+            if (textBox1.Text!=String.Empty&&textBox2.Text!=String.Empty && textBox3.Text != String.Empty && textBox4.Text != String.Empty && textBox5.Text != String.Empty)
+            {
+                try
+                {
+                    prod[contRapid] = new Prodotto($"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    carrello.Aggiungi(prod[contRapid]);
+                    contRapid++;
+                }
+                catch
+                {
+                    throw new Exception("Inserire un float nel prezzo");
+                }
+            }
+            Form1_Load(sender, e);
+        }
+
+        public static void StampaElementi(ListView listino, Carrello carr)
+        {
+            listino.Items.Clear();
+            Prodotto[] prod = carr.Prod;
+            int i = 0;
+            while (prod[i]!=null)
+            {
+                string[] temp = new string[] { prod[i].Id, prod[i].Nome, prod[i].Produttore, prod[i].Descrizione, $"{prod[i].Prezzo}", $"{50}" };
+                ListViewItem item = new ListViewItem(temp);
+                listino.Items.Add(item);
+                i++;
+            }
         }
     }
 }
