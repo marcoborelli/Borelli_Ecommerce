@@ -10,7 +10,7 @@ namespace Borelli_Ecommerce
     {
         private string _id;
         private const int MAX = 999;
-        private Prodotto[] _prod = new Prodotto[MAX];
+        private Prodotto[] _prod;
 
         public Carrello(string id)
         {

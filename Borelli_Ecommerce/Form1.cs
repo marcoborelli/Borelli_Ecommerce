@@ -63,6 +63,30 @@ namespace Borelli_Ecommerce
             }
             Form1_Load(sender, e);
         }
+        private void button3_Click(object sender, EventArgs e)//eliminazione
+        {
+            //MessageBox.Show(prod[0].ToString());
+            if (listView1.SelectedItems.Count > 0)
+            {
+                for (int i = 0; i < listView1.SelectedItems.Count; i++)
+                {
+                    Prodotto p = CreaProdTemp(listView1.SelectedItems[i].SubItems[0].Text, listView1.SelectedItems[i].SubItems[1].Text, listView1.SelectedItems[i].SubItems[2].Text, listView1.SelectedItems[i].SubItems[3].Text, float.Parse(listView1.SelectedItems[i].SubItems[4].Text));
+                    carrello.Rimuovi(p);
+                }
+                Form1_Load(sender, e);
+            }
+        }
+        private void button4_Click(object sender, EventArgs e)//svuota
+        {
+            carrello.Svuota();
+            Form1_Load(sender, e);
+        }
+
+        public Prodotto CreaProdTemp(string id, string nome,string prod,string descr,float prezz)
+        {
+            Prodotto p = new Prodotto(id, nome, prod, descr, prezz);
+            return p;
+        }
 
         public static void StampaElementi(ListView listino, Carrello carr)
         {
@@ -77,5 +101,7 @@ namespace Borelli_Ecommerce
                 i++;
             }
         }
+
+
     }
 }
