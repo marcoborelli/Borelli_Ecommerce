@@ -52,14 +52,21 @@ namespace Borelli_Ecommerce
             {
                 try
                 {
-                    prod[contRapid] = new Prodotto($"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
-                    carrello.Aggiungi(prod[contRapid]);
-                    contRapid++;
+                    float.Parse(textBox5.Text);
                 }
                 catch
                 {
                     throw new Exception("Inserire un float nel prezzo");
                 }
+                
+                
+                prod[contRapid] = new Prodotto($"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                carrello.Aggiungi(prod[contRapid]);
+                contRapid++;
+            }
+            else
+            {
+                MessageBox.Show("Inserire prima i valori");
             }
             Form1_Load(sender, e);
         }
@@ -95,7 +102,8 @@ namespace Borelli_Ecommerce
             int i = 0;
             while (prod[i]!=null)
             {
-                string[] temp = new string[] { prod[i].Id, prod[i].Nome, prod[i].Produttore, prod[i].Descrizione, $"{prod[i].Prezzo}", $"{50}" };
+                int qta = carr.VisualizzaQtaProdotti(i);
+                string[] temp = new string[] { prod[i].Id, prod[i].Nome, prod[i].Produttore, prod[i].Descrizione, $"{prod[i].Prezzo}", $"{qta}" };
                 ListViewItem item = new ListViewItem(temp);
                 listino.Items.Add(item);
                 i++;
